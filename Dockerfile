@@ -10,12 +10,6 @@ RUN yum upgrade -y \
 RUN adduser csgo
 RUN passwd csgo --stdin <<< 'admin'
 
-# RUN firewall-cmd --zone=public --add-port=27015/tcp --permanent
-# RUN firewall-cmd --zone=public --add-port=27015/udp --permanent
-# RUN firewall-cmd --reload
-
-# RUN yum install glibc.i686 libstdc++.i686 -y
-
 RUN su csgo
 WORKDIR /home/csgo
 
@@ -40,16 +34,11 @@ RUN mkdir sourcemod
 RUN tar xf sourcemod-1.9.0-git6281-linux.tar.gz  -C ./sourcemod
 RUN rsync -a ./sourcemod/ ./steamcmd/csgo_ds/
 
-# RUN wget https://github.com/splewis/csgo-pug-setup/releases/download/2.0.5/pugsetup_2.0.5.zip
-# RUN unzip pugsetup_2.0.5.zip -d ./csgo_ds
-
 RUN wget https://github.com/splewis/csgo-retakes/releases/download/v0.3.4/retakes_0.3.4.zip
 RUN mkdir pug_plugin
 RUN unzip pugsetup_2.0.5.zip -d ./pug_plugin
 RUN rsync -a ./pug_plugin ./steamcmd/csgo_ds/
 
-# Switch to user steam
-# USER steam
 
 ENV FPSMAX 300 \
     TICKRATE 128 \
@@ -71,9 +60,6 @@ WORKDIR $STEAMAPPDIR
 
 VOLUME $STEAMAPPDIR
 
-# Set Entrypoint:
-# 1. Update server
-# 2. Start server
 ENTRYPOINT ${STEAMCMDDIR}/steamcmd.sh \
     +login anonymous +force_install_dir ${STEAMAPPDIR} +app_update ${STEAMAPPID} +quit \
     && ${STEAMAPPDIR}/srcds_run \
@@ -81,5 +67,4 @@ ENTRYPOINT ${STEAMCMDDIR}/steamcmd.sh \
     -tickrate $TICKRATE -port $PORT -maxplayers_override $MAXPLAYERS +game_type $GAMETYPE +game_mode $GAMEMODE \
     +mapgroup $MAPGROUP +map $STARTMAP +sv_setsteamaccount $TOKEN +rcon_password $RCONPW +sv_password $PW +sv_region $REGION
 
-# Expose ports
 EXPOSE 27015 27020 27005 51840  
