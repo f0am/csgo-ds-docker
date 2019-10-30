@@ -39,7 +39,6 @@ RUN mkdir pug_plugin
 RUN unzip pugsetup_2.0.5.zip -d ./pug_plugin
 RUN rsync -a ./pug_plugin ./steamcmd/csgo_ds/
 
-
 ENV FPSMAX 300 \
     TICKRATE 128 \
     PORT 27015 \
@@ -54,7 +53,6 @@ ENV FPSMAX 300 \
     GAMETYPE 0 \
     GAMEMODE 1 \
     TOKEN "D769C4B2F3DAF0B2E7F0433346D9859A"
-
 
 WORKDIR $STEAMAPPDIR
 
