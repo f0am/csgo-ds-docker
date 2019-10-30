@@ -2,18 +2,19 @@ FROM centos:latest
 
 ENV STEAMCMDDIR /home/csgo/steamcmd
 RUN mkdir -p $STEAMCMDDIR
-# RUN yum update
-RUN yum upgrade -y
-RUN yum install -y wget unzip
+
+RUN yum upgrade -y \
+    yum update -y \
+    yum install -y wget unzip
+
 RUN adduser csgo
-# RUN echo "admin" | passwd --stdin
 RUN passwd csgo --stdin <<< 'admin'
 
-# RUN firewall-cmd --zone=public --add-port=27015/tcp --permanent \
-#     && firewall-cmd --zone=public --add-port=27015/udp --permanent \
-#     && firewall-cmd --reload
+# RUN firewall-cmd --zone=public --add-port=27015/tcp --permanent
+# RUN firewall-cmd --zone=public --add-port=27015/udp --permanent
+# RUN firewall-cmd --reload
 
-RUN yum install glibc.i686 libstdc++.i686 -y
+# RUN yum install glibc.i686 libstdc++.i686 -y
 
 RUN su csgo
 WORKDIR /home/csgo
