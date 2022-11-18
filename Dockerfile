@@ -11,7 +11,9 @@ RUN mkdir -p $STEAMCMDDIR
 
 RUN yum upgrade -y \
     yum update -y \
-    yum install -y wget unzip passwd
+    yum install -y wget unzip
+    
+RUN yum install -y passwd
 
 RUN adduser csgo
 RUN passwd csgo --stdin <<< 'admin'
